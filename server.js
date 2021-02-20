@@ -18,11 +18,14 @@ mongoose.connect(`mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@clus
         useFindAndModify: false,
         useUnifiedTopology: true
     });
+const db = require("./models");
 
 //routes
 const htmlRoutes = require("./routes/htmlRoutes");
+const apiRoutes= require("./routes/apiRoutes");
 
 htmlRoutes(app);
+apiRoutes(app,db);
 
 app.listen(PORT, function () {
     console.log(`Listening at http://localhost:${PORT}`);
