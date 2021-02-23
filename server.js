@@ -8,8 +8,10 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
+morgan.token('body', function(req,res){return console.log(req.body)});
+
 //middleware
-app.use(morgan("tiny"));
+app.use(morgan(':method :url :status :body'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
