@@ -7,7 +7,7 @@ module.exports = function (app, db) {
             if (err) throw err;
 
             data[0].exercises.push(req.body);
-            data[0].totalDuration = data[0].totalDuration+req.body.duration;
+            data[0].totalDuration = data[0].totalDuration + req.body.duration;
 
             db.Workout.findOneAndUpdate({ _id: req.params.workoutId }, { exercises: data[0].exercises, totalDuration: data[0].totalDuration }, (errTwo, workout) => {
                 if (errTwo) throw errTwo;
@@ -45,7 +45,17 @@ module.exports = function (app, db) {
     app.get("/api/workouts/range", (req, res) => {
         db.Workout.find({}, function (err, data) {
             if (err) throw err;
-            res.json(data);
+
+            if (data.length > 7) {
+                let lastSeven = [];
+                for (let i = 1; i < 9; i++) {
+                    lastSeven.push(data[data.length - i]);
+                }
+                res.json(lastSeven);
+            } else {
+                res.json(data);
+            }
+
         })
     });
 }
